@@ -1,0 +1,8 @@
+user:
+api-key:
+tunnel-identifier: mitmproxy
+verbose: 1
+region: us-west
+logfile: "-"
+cainfo: /Users/kxm/.mitmproxy/mitmproxy-ca-cert.pem
+pac: file:///Users/kxm/.sauce/proxy.pac
