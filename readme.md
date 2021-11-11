@@ -4,9 +4,9 @@
 
 
 
-Sauce Connect can route traffic through additional proxies. Both internal and external proxies are supported.
+Use Sauce Connect Forward Proxy with additional proxies. Both internal and external proxies are supported.
 
-Use this guide to use [mitmproxy](https://mitmproxy.org/) for the Sauce Labs Real Device Cloud.
+This guide uses [mitmproxy](https://mitmproxy.org/).
 
 
 Guides already exist for
