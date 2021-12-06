@@ -43,11 +43,11 @@ SAUCE_ACCESS_KEY=
 docker run --rm -it \
   -v ~/.mitmproxy:/home/mitmproxy/.mitmproxy \
   -p 8180:8080 \
-  -p 8181:8081 \
+  -p 3000:3000 \
   mitmproxy/mitmproxy \
-  mitmdump --tcp-hosts '.*'
+  mitmweb --web-host 0.0.0.0 --web-port 3000
 
-# update proxy.yml with absolute paths to pac and pem files.
+# update proxy.yml with absolute paths to pac file.
 # atom proxy.yml
 
 # start sauce connect
@@ -56,6 +56,9 @@ sc --config-file proxy.yml
 
 ##### Start Live Device Session
 ```
+# open chrome to local mitmweb
+open -a 'Google Chrome' http://localhost:3000
+
 # open chrome to the sauce labs dashboard
 open -a 'Google Chrome' https://app.saucelabs.com/live/web-testing
 ```
@@ -71,3 +74,17 @@ open -a 'Google Chrome' https://app.saucelabs.com/live/web-testing
 [Sauce Connect CLI Reference](https://docs.saucelabs.com/dev/cli/sauce-connect-proxy/)  
 [Sauce Connect API Methods](https://docs.saucelabs.com/dev/api/connect/)  
 [Sauce Connect SSL Bumping](https://docs.saucelabs.com/secure-connections/sauce-connect/troubleshooting/#ssl-bumping)
+[Proxy PAC Configuration Examples](https://developer.mozilla.org/en-US/docs/Web/HTTP/Proxy_servers_and_tunneling/Proxy_Auto-Configuration_PAC_file)
+
+
+```
+sc --tunnel-identifier --region --logfile --cainfo --pac file:///Users/kxm/.sauce/proxy.pac  --no-ssl-bump-domains All
+
+
+cainfo: /Users/kxm/.mitmproxy/mitmproxy-ca-cert.pem
+
+
+
+
+docker run --name mitmproxy --rm -d -p 8888:8080 -p 127.0.0.1:8889:8081 -v $(pwd):/data  mitmproxy/mitmproxy mitmweb --web-host 0.0.0.0 --web-port 8081 -s /data/scripts/redirect.py -s /data/scripts/modify_response.py
+docker logs mitmproxy -f
