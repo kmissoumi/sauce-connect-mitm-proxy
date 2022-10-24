@@ -1,8 +1,8 @@
 user:
 api-key:
-tunnel-identifier: mitmproxy
+tunnel-identifier: localdev
 verbose: 0
-region: us-west
+region: eu-central
 logfile: "-"
-pac: file:///Users/kxm/.sauce/proxy.pac
 no-ssl-bump-domains: [ all ]
+shared-tunnel: false

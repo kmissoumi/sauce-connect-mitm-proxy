@@ -29,8 +29,8 @@ brew install mitmproxy
 docker pull mitmproxy/mitmproxy
 
 # set environment variables
-SAUCE_USERNAME=
-SAUCE_ACCESS_KEY=
+export SAUCE_USERNAME=
+export SAUCE_ACCESS_KEY=
 ```
 
 
@@ -47,11 +47,12 @@ docker run --rm -it \
   mitmproxy/mitmproxy \
   mitmweb --web-host 0.0.0.0 --web-port 3000
 
-# update proxy.yml with absolute paths to pac file.
-# atom proxy.yml
 
 # start sauce connect
-sc --config-file proxy.yml
+# 
+# note the URI to a local pac file must be absolute
+# please validate the path printed to screen is correct before executing the output
+echo sc --config-file proxy.yml --pac file://${PWD}/proxy.pac
 ```
 
 ##### Start Live Device Session
@@ -66,25 +67,12 @@ open -a 'Google Chrome' https://app.saucelabs.com/live/web-testing
   - select the tunnel from the _SAUCE CONNECT PROXY_ drop down menu
     - select a device and then the blue _Start Test_ button
   - open the device browser to `http://mitm.it`
-    - download and then install the self signed certificate
+    - download and then install the self-signed certificate
 
 
 ##### Notes
 [Sauce Connect Proxy Authentication ](https://docs.saucelabs.com/dev/cli/sauce-connect-proxy/#--pac-auth)  
 [Sauce Connect CLI Reference](https://docs.saucelabs.com/dev/cli/sauce-connect-proxy/)  
 [Sauce Connect API Methods](https://docs.saucelabs.com/dev/api/connect/)  
-[Sauce Connect SSL Bumping](https://docs.saucelabs.com/secure-connections/sauce-connect/troubleshooting/#ssl-bumping)
-[Proxy PAC Configuration Examples](https://developer.mozilla.org/en-US/docs/Web/HTTP/Proxy_servers_and_tunneling/Proxy_Auto-Configuration_PAC_file)
-
-
-```
-sc --tunnel-identifier --region --logfile --cainfo --pac file:///Users/kxm/.sauce/proxy.pac  --no-ssl-bump-domains All
-
-
-cainfo: /Users/kxm/.mitmproxy/mitmproxy-ca-cert.pem
-
-
-
-
-docker run --name mitmproxy --rm -d -p 8888:8080 -p 127.0.0.1:8889:8081 -v $(pwd):/data  mitmproxy/mitmproxy mitmweb --web-host 0.0.0.0 --web-port 8081 -s /data/scripts/redirect.py -s /data/scripts/modify_response.py
-docker logs mitmproxy -f
+[Sauce Connect SSL Bumping](https://docs.saucelabs.com/secure-connections/sauce-connect/troubleshooting/#ssl-bumping)  
+[Proxy PAC Configuration Examples](https://developer.mozilla.org/en-US/docs/Web/HTTP/Proxy_servers_and_tunneling/Proxy_Auto-Configuration_PAC_file)  
